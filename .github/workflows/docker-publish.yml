@@ -24,7 +24,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: tisalema/master-detail-backend:latest
+        tags: letis/master-detail-backend:latest
 
     - name: Logout
       run: docker logout
