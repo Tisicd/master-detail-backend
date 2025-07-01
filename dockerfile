@@ -1,10 +1,18 @@
-FROM python:3.11
+FROM python:3.10-slim
 
 WORKDIR /app
 
+# Copiar e instalar dependencias
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copiar todo el código
 COPY . .
 
-CMD ["python", "app.py"]
+# Variables de entorno (puedes sobreescribir en EC2)
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_PORT=5000
+
+EXPOSE 5000
+
+CMD ["flask", "run", "--host=0.0.0.0"]
