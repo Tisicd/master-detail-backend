@@ -6,8 +6,8 @@ import os
 BASE_URL = "http://localhost:5000" if os.getenv('ENV') == 'local' else "http://3.227.43.87:5000"
 
 # Cargar especificación Swagger
-with open('swagger.yml', 'r') as f:
-    swagger_spec = yaml.safe_load(f)
+#with open('swagger.yml', 'r') as f:
+#    swagger_spec = yaml.safe_load(f)
 
 # Pruebas para el endpoint de clientes
 class TestClientesAPI:
