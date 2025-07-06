@@ -13,10 +13,9 @@ def obtener_todos_los_clientes():
             numero_documento,
             tipo_cliente,
             razon_social,
-            correo_electronico,
-            telefono,
             TO_CHAR(fecha_registro, 'YYYY-MM-DD') AS fecha_registro,
-            estado
+            estado,
+            observaciones
         FROM clientes
         ORDER BY id
     """)
@@ -26,6 +25,7 @@ def obtener_todos_los_clientes():
     conn.close()
     return clientes
 
+
 # POST /api/clientes
 def crear_cliente(data):
     conn = get_db_connection()
@@ -34,8 +34,8 @@ def crear_cliente(data):
     cur.execute("""
         INSERT INTO clientes (
             codigo, nombres, apellidos, tipo_documento, numero_documento,
-            tipo_cliente, razon_social, correo_electronico, telefono, estado
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            tipo_cliente, razon_social, estado, observaciones
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         RETURNING id
     """, (
         data["codigo"],
@@ -45,9 +45,8 @@ def crear_cliente(data):
         data["numero_documento"],
         data["tipo_cliente"],
         data.get("razon_social"),
-        data.get("correo_electronico"),
-        data.get("telefono"),
-        data.get("estado", "Activo")
+        data.get("estado", "Activo"),
+        data.get("observaciones", "")
     ))
 
     nuevo_id = cur.fetchone()[0]
@@ -70,10 +69,9 @@ def obtener_cliente_por_id(cliente_id):
             numero_documento,
             tipo_cliente,
             razon_social,
-            correo_electronico,
-            telefono,
             TO_CHAR(fecha_registro, 'YYYY-MM-DD') AS fecha_registro,
-            estado
+            estado,
+            observaciones
         FROM clientes
         WHERE id = %s
     """, (cliente_id,))
@@ -96,9 +94,8 @@ def actualizar_cliente(cliente_id, data):
             numero_documento = %s,
             tipo_cliente = %s,
             razon_social = %s,
-            correo_electronico = %s,
-            telefono = %s,
-            estado = %s
+            estado = %s,
+            observaciones = %s
         WHERE id = %s
     """, (
         data["codigo"],
@@ -108,9 +105,8 @@ def actualizar_cliente(cliente_id, data):
         data["numero_documento"],
         data["tipo_cliente"],
         data.get("razon_social"),
-        data.get("correo_electronico"),
-        data.get("telefono"),
         data.get("estado", "Activo"),
+        data.get("observaciones", ""),
         cliente_id
     ))
     conn.commit()
