@@ -6,25 +6,31 @@ def obtener_todos_los_clientes():
     cur = conn.cursor()
     cur.execute("""
         SELECT 
-            id, 
-            codigo, 
-            CONCAT(nombres, ' ', apellidos) AS nombre_completo,
-            tipo_documento,
-            numero_documento,
-            tipo_cliente,
-            razon_social,
-            TO_CHAR(fecha_registro, 'YYYY-MM-DD') AS fecha_registro,
-            estado,
-            observaciones
-        FROM clientes
-        ORDER BY id
+            c.id, 
+            c.codigo, 
+            CONCAT(c.nombres, ' ', c.apellidos) AS nombre_completo,
+            c.tipo_documento,
+            c.numero_documento,
+            c.tipo_cliente,
+            c.razon_social,
+            TO_CHAR(c.fecha_registro, 'YYYY-MM-DD') AS fecha_registro,
+            c.estado,
+            c.observaciones,
+
+            -- Datos de contacto desde dirección principal
+            d.telefono_principal,
+            d.telefono_secundario,
+            d.correo_electronico
+
+        FROM clientes c
+        LEFT JOIN direcciones d ON d.cliente_id = c.id AND d.tipo_direccion = 'Principal'
+        ORDER BY c.id
     """)
     columnas = [desc[0] for desc in cur.description]
     clientes = [dict(zip(columnas, fila)) for fila in cur.fetchall()]
     cur.close()
     conn.close()
     return clientes
-
 
 # POST /api/clientes
 def crear_cliente(data):
