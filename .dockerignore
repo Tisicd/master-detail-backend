@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.log
+*.env
+*.egg-info/
+*.sqlite3
+
+# Git
+.git/
+.gitignore
+
+# Tests
+tests/
+*.test.*
+test_*.py
+
+# Editor config
+.vscode/
+.idea/
+.DS_Store

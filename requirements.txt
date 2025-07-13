@@ -3,3 +3,6 @@ Flask-Cors
 psycopg2-binary
 python-dotenv
 flasgger
+pytest
+pytest-flask
+pytest-html

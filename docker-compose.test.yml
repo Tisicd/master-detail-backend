@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  db-test:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./scripts/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./scripts/test_data.sql:/docker-entrypoint-initdb.d/02_data.sql
+
+  backend-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      - db-test
+    env_file:
+      - .env.test
+    volumes:
+      - .:/app
+    entrypoint: ["sh", "wait-for-db.sh"]
+    command: ["pytest", "tests/", "--html=report.html", "--self-contained-html"]

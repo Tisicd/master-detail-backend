@@ -1,18 +1,45 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.egg-info/
-.env
+*.pyo
+*.pyd
 
-# Virtual env
+# Virtual environments
 venv/
-ENV/
-env/
+.env
 .venv/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+
+# Mac/Windows system files
+.DS_Store
+Thumbs.db
 
 # Logs
 *.log
 
+# Pytest
+htmlcov/
+*.cover
+coverage.*
+.tox/
+.pytest_cache/
+
 # Docker
-*.sqlite3
-docker-compose.override.yml
+*.pid
+db-data/
+*.db
+
+# Reports
+report.html
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Build
+build/
+dist/
+*.egg

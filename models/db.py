@@ -2,7 +2,7 @@ import os
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=os.getenv("ENV_FILE", ".env"))
 
 def get_db_connection():
     print("DB_HOST:", os.getenv("DB_HOST"))  # ⬅️ Esto debe imprimir 181.199.54.170

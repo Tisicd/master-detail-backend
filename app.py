@@ -8,6 +8,7 @@ from models.clientes import (
     obtener_todos_los_clientes,
     crear_cliente,
     obtener_cliente_por_id,
+    buscar_clientes,
     actualizar_cliente,
     eliminar_cliente
 )
@@ -374,6 +375,13 @@ def delete_direccion(direccion_id):
             "status": "error",
             "message": f"Error al eliminar dirección: {str(e)}"
         }), 500
+    
+@app.route("/api/clientes/buscar", methods=["GET"])
+def api_buscar_clientes():
+    filtros = request.args.to_dict()
+    resultados = buscar_clientes(filtros)
+    return jsonify(resultados)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
