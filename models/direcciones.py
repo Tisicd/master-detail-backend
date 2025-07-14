@@ -200,10 +200,8 @@ def actualizar_direccion(direccion_id, data):
             conn.close()
             raise ValueError("Este cliente ya tiene una dirección Principal.")
 
-
     cur.execute("""
         UPDATE direcciones SET
-            codigo_direccion = %s,
             calle_principal = %s,
             calle_secundaria = %s,
             numero_casa = %s,
@@ -220,7 +218,6 @@ def actualizar_direccion(direccion_id, data):
             instrucciones_envio = %s
         WHERE id = %s
     """, (
-        data["codigo_direccion"],
         data["calle_principal"],
         data.get("calle_secundaria"),
         data["numero_casa"],
