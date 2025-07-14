@@ -378,9 +378,26 @@ def delete_direccion(direccion_id):
     
 @app.route("/api/clientes/buscar", methods=["GET"])
 def api_buscar_clientes():
-    filtros = request.args.to_dict()
+    filtros = {}
+
+    # Obtener y limpiar los parámetros relevantes
+    nombre = request.args.get("nombre")
+    numero_documento = request.args.get("numero_documento")
+    estado = request.args.get("estado")
+
+    if nombre and nombre.strip():
+        filtros["nombre"] = nombre.strip().lower()
+
+    if numero_documento and numero_documento.strip().isdigit():
+        filtros["numero_documento"] = numero_documento.strip()
+
+    if estado and estado.strip().lower() in ["activo", "inactivo"]:
+        filtros["estado"] = estado.strip().lower()
+
+    # Ejecutar búsqueda
     resultados = buscar_clientes(filtros)
-    return jsonify(resultados)
+
+    return jsonify(resultados), 200
 
 
 if __name__ == '__main__':
