@@ -103,6 +103,15 @@ def obtener_direccion_por_id(direccion_id):
     conn.close()
     return direccion
 
+def generar_codigo_direccion():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT nextval('codigo_direccion_seq')")
+    num = cur.fetchone()[0]
+    cur.close()
+    conn.close()
+    return f"DIR{num:03d}"
+
 
 # 🔹 Crear dirección (ahora con todos los campos en una sola tabla)
 def crear_direccion(data):
@@ -127,6 +136,8 @@ def crear_direccion(data):
         cur.close()
         conn.close()
         raise ValueError("El cliente ya tiene el número máximo de direcciones permitidas.")
+    
+    codigo = generar_codigo_direccion()
 
     cur.execute("""
         INSERT INTO direcciones (
@@ -149,7 +160,7 @@ def crear_direccion(data):
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         RETURNING id
     """, (
-        data["codigo_direccion"],
+        codigo,
         data["calle_principal"],
         data.get("calle_secundaria"),
         data["numero_casa"],
