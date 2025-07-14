@@ -33,8 +33,11 @@ coverage.*
 db-data/
 *.db
 
-# Reports
+# Reportes de pruebas
 report.html
+htmlcov/
+.coverage
+
 
 # Jupyter
 .ipynb_checkpoints/

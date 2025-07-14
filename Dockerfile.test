@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Instalar herramientas para testing
-RUN pip install pytest pytest-html pytest-flask requests
+RUN pip install pytest pytest-html pytest-flask requests coverage pytest-cov
 
 # Copiar el código y el script wait-for-db
 COPY . .

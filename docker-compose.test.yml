@@ -23,5 +23,15 @@ services:
       - .env.test
     volumes:
       - .:/app
+      - ./htmlcov:/app/htmlcov  # Volumen para el reporte HTML de coverage
+      - ./report.html:/app/report.html  # Volumen para el reporte HTML de pytest
     entrypoint: ["sh", "wait-for-db.sh"]
-    command: ["pytest", "tests/", "--html=report.html", "--self-contained-html"]
+    command: >
+      sh -c "
+        coverage run -m pytest tests/ &&
+        coverage report -m &&
+        coverage html &&
+        pytest tests/ --html=report.html --self-contained-html
+      "
+
+
