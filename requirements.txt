@@ -6,3 +6,4 @@ flasgger
 pytest
 pytest-flask
 pytest-html
+gunicorn
